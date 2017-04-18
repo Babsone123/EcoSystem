@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/EcoSystems.iml" filepath="$PROJECT_DIR$/EcoSystems.iml" />
+      <module fileurl="file://$PROJECT_DIR$/system.def/system.def.iml" filepath="$PROJECT_DIR$/system.def/system.def.iml" />
+      <module fileurl="file://$PROJECT_DIR$/system.def/system.def.Test.iml" filepath="$PROJECT_DIR$/system.def/system.def.Test.iml" />
+    </modules>
+  </component>
+</project>
