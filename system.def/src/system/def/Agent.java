@@ -5,6 +5,7 @@ package system.def;
  */
 public abstract class Agent
 {
+
     private int _energyLevel;
     private TypeOfOrganism _type;
     private Square _location;
