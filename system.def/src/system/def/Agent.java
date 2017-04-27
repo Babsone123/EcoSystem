@@ -3,31 +3,45 @@ package system.def;
 /**
  * Created by anthonylawal on 18/04/2017.
  */
-public abstract class Agent
-{
+public abstract class Agent extends ObservableAgent {
 
-    private int _energyLevel;
+
+    public String Name;
+    public Grid Grid;
+    public int EnergyLevel;
     private TypeOfOrganism _type;
-    private Square _location;
-    private int _increaseEnergyValue;
-    private int _descreaseEnergyValue;
+    protected ILocation Location;
+    protected int _increaseEnergyValue;
+    protected int _decreaseEnergyValue;
+    private Status _status;
+    protected TrophicLevel Level;
 
-    protected Agent(int energyLevel, TypeOfOrganism type, Square location, int IncreaseEnergyValue, int DescreaseEnergyValue) {
-        _energyLevel = energyLevel;
+
+
+
+    protected Agent(TrophicLevel level, String name, int energyLevel, TypeOfOrganism type, ILocation location, int IncreaseEnergyValue, int DescreaseEnergyValue) {
+
+        EnergyLevel = energyLevel;
         _type = type;
-        _location = location;
+        SetLocation(location);
         _increaseEnergyValue = IncreaseEnergyValue;
-        _descreaseEnergyValue = DescreaseEnergyValue;
+        _decreaseEnergyValue = DescreaseEnergyValue;
+        _status = system.def.Status.Active;
+        Level = level;
+        Name = name;
     }
 
-    private Agent(IDefaultConfiguration config)
-    {
-        _energyLevel = config.EnergyLevel;
-        _type = config.Type;
-        _location = config.Location;
-        _increaseEnergyValue = config.IncreaseEnergyValue;
-        _descreaseEnergyValue = config.DescreaseEnergyValue;
 
+
+    protected Agent(IDefaultConfiguration configuration) {
+
+        EnergyLevel = configuration.SetInitialEnergyLevel();
+        _type = configuration.SetType();
+        SetLocation(configuration.SetLocation());
+        _increaseEnergyValue = configuration.SetIncreaseEnergyValue();
+        _decreaseEnergyValue = configuration.SetDecreaseEnergyValue();
+        _status = system.def.Status.Active;
+        Level = configuration.Setlevel();
     }
 
 
@@ -36,20 +50,44 @@ public abstract class Agent
         return _type;
     }
 
-    public Square CurrentLocation()
+    public ILocation CurrentLocation()
     {
-        return _location;
+        return Location;
     }
 
-    public int GetEnergyLevel() { return _energyLevel; }
+    public int GetEnergyLevel() { return EnergyLevel; }
 
     public void IncreaseEnergyLevel()
     {
-        _energyLevel += _increaseEnergyValue;
+        EnergyLevel += _increaseEnergyValue;
     }
 
-    public void DescreaseEnergyLevel()
+    public void DecreaseEnergyLevel()
     {
-        _energyLevel -= _descreaseEnergyValue;
+        EnergyLevel -= _decreaseEnergyValue;
+    }
+
+    @Override
+    public Status GetStatus() { return _status; }
+
+
+    public void SetStatus(Status status) {
+        _status = status;
+        setChanged();
+        notifyStatusChange(status);
+    }
+
+
+    @Override
+    public ILocation GetLocation() {
+        return Location;
+    }
+
+
+    public void SetLocation(ILocation location) {
+         Location = location;
+         if (Grid != null)
+         Grid.Add(this);
+
     }
 }
