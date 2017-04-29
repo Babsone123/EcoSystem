@@ -1,5 +1,6 @@
 package system.def;
 
+//Used java observer object.
 
 import java.util.Vector;
 

@@ -5,8 +5,8 @@ package system.def;
  */
 public class AgentManager implements IAgentObserver{
 
+
     private Grid _grid;
-   // private Agent _agent;
 
     public AgentManager(Grid grid) {
         _grid = grid;

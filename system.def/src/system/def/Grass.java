@@ -3,7 +3,7 @@ package system.def;
 /**
  * Created by anthonylawal on 21/04/2017.
  */
-public class Grass extends Predator  {
+public class Grass extends Agent  {
 
     private IDefaultConfiguration configuration = new WolfConfiguration();
 
@@ -13,6 +13,12 @@ public class Grass extends Predator  {
 
     protected Grass(IDefaultConfiguration configuration) {
         super(configuration);
+    }
+
+    @Override
+    public void ExecuteSteps() {
+
+
     }
 
 

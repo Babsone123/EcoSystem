@@ -5,7 +5,8 @@ import java.util.List;
 /**
  * Created by anthonylawal on 21/04/2017.
  */
-public class Wolf extends Predator  {
+
+public class Wolf extends Agent implements IMobileAgent  {
 
     private IDefaultConfiguration configuration = new WolfConfiguration();
 
@@ -13,14 +14,23 @@ public class Wolf extends Predator  {
         super(level, name, energyLevel, type, location, IncreaseEnergyValue, DescreaseEnergyValue);
     }
 
-    protected Wolf( IDefaultConfiguration configuration) {
+    protected Wolf(IDefaultConfiguration configuration) {
         super(configuration);
     }
 
-    public void ExecuteSteps()
-    {
-        //this.Move();
+
+    @Override
+    public void ExecuteSteps() {
+
+        Move();
+
+
     }
 
 
+    @Override
+    public void Move() {
+        AgentMovement.RandomSingleStep(this);
+        DecreaseEnergyLevel();
+    }
 }

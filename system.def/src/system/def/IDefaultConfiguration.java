@@ -10,4 +10,5 @@ public interface IDefaultConfiguration {
     public ILocation SetLocation();
     public int SetIncreaseEnergyValue();
     public int SetDecreaseEnergyValue();
+    public Double R_Probability();
 }

@@ -46,4 +46,9 @@ public class WolfConfiguration implements IDefaultConfiguration {
     public int SetDecreaseEnergyValue() {
         return DECREASEENERGYVALUE;
     }
+
+    @Override
+    public Double R_Probability() {
+        return null;
+    }
 }

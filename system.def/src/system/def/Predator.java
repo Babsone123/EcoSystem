@@ -1,5 +1,7 @@
 package system.def;
 
+import com.sun.tools.doclets.formats.html.PackageUseWriter;
+
 import java.util.Random;
 
 /**
@@ -19,86 +21,21 @@ public class Predator extends Agent {
 
     }
 
-
-    public void Move(ILocation destination) {
-
-        Grid.RemoveAgentInSquare(this, GetLocation());
-        SetLocation(destination);
-        setChanged();
-        notifyLocationChange();
-
-    }
-
-    public void MoveToNeighbouringSquare()
-    {
-
-     //        north = currentPos - gridSize; y + 1
-     //        east = currentPos + 1; x + 1
-     //        south = currentPos + gridSize; y - 1
-     //        west = currentPos - 1; x - 1
-
-
+    @Override
+    public void ExecuteSteps() {
 
     }
 
 
-    private boolean IsSpaceAvailableInDirection(int Direction)
-    {
-
-        boolean isSpaceAvailable = false;
-        int gridBreath = Grid.GetBreath();
-        int gridLenght = Grid.GetLenght();
-        ILocation currentLocation = GetLocation();
-
-
-        switch (Direction) {
-
-            case 1:
-               isSpaceAvailable = (gridBreath - currentLocation.GetY()) > 0;
-               break;
-
-            case 2:
-                isSpaceAvailable = (gridBreath - currentLocation.GetY()) < currentLocation.GetY();
-                break;
-
-            case 3:
-                isSpaceAvailable = (gridLenght - currentLocation.GetX()) > 0;
-                break;
-
-            case 4:
-                isSpaceAvailable = (gridLenght - currentLocation.GetX()) < currentLocation.GetX();
-                break;
-
-        }
-
-        return isSpaceAvailable;
-    }
-
-    /*private Square GetNextSquare()
-    {
-        int direction = new Random().nextInt(4);
-
-        switch (direction) {
-            case 1:
-
-                break;
-
-        }
-
-       // if (GetLocation().GetX())
-    }
-   */
 
     public void Eat(Agent prey) {
 
-        Status status = Status.Dead;
-
-        if (this.Level.NumericValue() > prey.Level.NumericValue() & prey.GetType() != TypeOfOrganism.Plant)
-            prey.SetStatus(status);
+        if (this.Level.NumericValue() > prey.Level.NumericValue() & prey.GetType() != TypeOfOrganism.Plant) {
+            prey.Die();
+            IncreaseEnergyLevel();
+        }
 
         else if (prey.GetType() == TypeOfOrganism.Plant) {
-
-
 
         }
     }

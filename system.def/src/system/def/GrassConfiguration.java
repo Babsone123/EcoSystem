@@ -46,4 +46,9 @@ public class GrassConfiguration implements IDefaultConfiguration {
     public int SetDecreaseEnergyValue() {
         return DECREASEENERGYVALUE;
     }
+
+    @Override
+    public Double R_Probability() {
+        return 0.4;
+    }
 }

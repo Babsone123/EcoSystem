@@ -1,5 +1,7 @@
 package system.def;
 
+import java.util.Random;
+
 /**
  * Created by anthonylawal on 18/04/2017.
  */
@@ -15,11 +17,10 @@ public abstract class Agent extends ObservableAgent {
     protected int _decreaseEnergyValue;
     private Status _status;
     protected TrophicLevel Level;
+    private Double R_Probability;
 
 
-
-
-    protected Agent(TrophicLevel level, String name, int energyLevel, TypeOfOrganism type, ILocation location, int IncreaseEnergyValue, int DescreaseEnergyValue) {
+    protected Agent(TrophicLevel level, String name, int energyLevel, TypeOfOrganism type, ILocation location, int IncreaseEnergyValue, int DescreaseEnergyValue, double r_Probability) {
 
         EnergyLevel = energyLevel;
         _type = type;
@@ -29,8 +30,8 @@ public abstract class Agent extends ObservableAgent {
         _status = system.def.Status.Active;
         Level = level;
         Name = name;
+        R_Probability = r_Probability;
     }
-
 
 
     protected Agent(IDefaultConfiguration configuration) {
@@ -42,6 +43,7 @@ public abstract class Agent extends ObservableAgent {
         _decreaseEnergyValue = configuration.SetDecreaseEnergyValue();
         _status = system.def.Status.Active;
         Level = configuration.Setlevel();
+        R_Probability = configuration.R_Probability();
     }
 
 
@@ -50,17 +52,21 @@ public abstract class Agent extends ObservableAgent {
         return _type;
     }
 
+
     public ILocation CurrentLocation()
     {
         return Location;
     }
 
+
     public int GetEnergyLevel() { return EnergyLevel; }
+
 
     public void IncreaseEnergyLevel()
     {
         EnergyLevel += _increaseEnergyValue;
     }
+
 
     public void DecreaseEnergyLevel()
     {
@@ -77,6 +83,32 @@ public abstract class Agent extends ObservableAgent {
         notifyStatusChange(status);
     }
 
+    //To allow implementation in concrete classes.
+    public abstract void ExecuteSteps();
+
+
+
+    public void Die()
+    {
+        Status status = Status.Dead;
+        EnergyLevel = -1;
+        SetStatus(status);
+    }
+
+
+    public void Reproduce()
+    {
+
+    }
+
+
+    private Double CalculateProbability()
+    {
+        Random randomNumber = new Random(1);
+        Double randomProbability = randomNumber.nextDouble();
+        return randomProbability;
+    }
+
 
     @Override
     public ILocation GetLocation() {
@@ -88,6 +120,9 @@ public abstract class Agent extends ObservableAgent {
          Location = location;
          if (Grid != null)
          Grid.Add(this);
+
+         if (this.EnergyLevel < 0)
+             this.Die();
 
     }
 }

@@ -24,6 +24,7 @@ public class DeerConfiguration implements IDefaultConfiguration {
         return TrophicLevel.HERBIVOUR;
     }
 
+
     @Override
     public TypeOfOrganism SetType() {
         return TYPE;
@@ -46,4 +47,11 @@ public class DeerConfiguration implements IDefaultConfiguration {
     public int SetDecreaseEnergyValue() {
         return DECREASEENERGYVALUE;
     }
+
+    @Override
+    public Double R_Probability() {
+        return 0.3;
+    }
+
+
 }
