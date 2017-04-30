@@ -21,7 +21,9 @@ public abstract class Agent extends ObservableAgent {
     private Double R_Probability;
 
 
-    protected Agent(TrophicLevel level, String name, int energyLevel, TypeOfOrganism type, ILocation location, int IncreaseEnergyValue, int DescreaseEnergyValue, double r_Probability) {
+    protected Agent(TrophicLevel level, String name, int energyLevel, TypeOfOrganism type,
+                    ILocation location, int IncreaseEnergyValue, int DescreaseEnergyValue,
+                    double r_Probability) {
 
         EnergyLevel = energyLevel;
         _type = type;
@@ -80,6 +82,7 @@ public abstract class Agent extends ObservableAgent {
         }
     }
 
+
     @Override
     public Status GetStatus() { return _status; }
 
@@ -126,16 +129,19 @@ public abstract class Agent extends ObservableAgent {
          if (Grid != null)
          Grid.Add(this);
 
-         if (this.EnergyLevel < 0)
-             this.Die();
+    }
 
+    public void Move()
+    {
+        AgentMovement.RandomSingleStep(this);
     }
 
     //To allow implementation in concrete classes.
+    //Was going to implement a template pattern.
     public abstract void ExecuteSteps();
 
     public abstract void Reproduce();
 
-    protected abstract boolean IsEatable(Agent prey);
+    //protected abstract boolean IsEatable(Agent prey);
 
 }

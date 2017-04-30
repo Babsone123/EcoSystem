@@ -16,15 +16,24 @@ public class AgentMovement {
 
     public static void RandomSingleStep(Agent agent)
     {
-
         agent = agent;
         grid = agent.Grid;
-
 
         agent.Grid.RemoveAgentInSquare(agent, agent.CurrentLocation());
         GetRandomAvailableSquare();
         agent.SetLocation(nextLocation);
         NotifyObserver();
+    }
+
+
+    public static void Spread(Agent agent)
+    {
+        agent = agent;
+        grid = agent.Grid;
+
+        GetRandomAvailableSquare();
+        agent.SetLocation(nextLocation);
+
     }
 
 

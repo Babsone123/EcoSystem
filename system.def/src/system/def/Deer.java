@@ -5,7 +5,8 @@ import java.util.LinkedList;
 /**
  * Created by anthonylawal on 21/04/2017.
  */
-public class Deer extends Agent implements IMobileAgent {
+
+public class Deer extends Agent implements MobileAgent,  IPredator {
 
     private IDefaultConfiguration configuration = new WolfConfiguration();
 
@@ -27,6 +28,10 @@ public class Deer extends Agent implements IMobileAgent {
 @Override
 public void ExecuteSteps() {
 
+        Move();
+        Eat();
+        Reproduce();
+        DecreaseEnergyLevel();
 
 }
 
@@ -41,7 +46,7 @@ public void Reproduce() {
     }
 
 
-    protected boolean IsEatable(Agent prey)
+    public boolean IsEatable(Agent prey)
     {
         boolean eatable = false;
 
@@ -65,18 +70,10 @@ public void Reproduce() {
 
             if(IsEatable(currentAgent))
             {
-                agentsInCurrentSquare.get(i).Die();
+                agentsInCurrentSquare.get(i).DecreaseEnergyLevel();
                 IncreaseEnergyLevel();
                 break;
             }
         }
     }
-
-
-    @Override
-    public void Move() {
-
-        AgentMovement.RandomSingleStep(this);
-    }
-
 }

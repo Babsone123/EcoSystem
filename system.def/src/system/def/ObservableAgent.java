@@ -42,10 +42,6 @@ public abstract class ObservableAgent {
     }
 
 
-    public void notifyObservers() {
-        //notifyObservers(null);
-    }
-
 
     public void notifyStatusChange(ObservableAgent agent, Status status) {
 
@@ -84,7 +80,11 @@ public abstract class ObservableAgent {
         }
 
         for (int i = arrLocal.size()-1; i>=0; i--)
-            arrLocal.get(i).LocationChanged(this);
+            try {
+                arrLocal.get(i).LocationChanged(this);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
     }
 
 

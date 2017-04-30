@@ -23,9 +23,9 @@ public class AgentManager implements IAgentObserver{
     }
 
     @Override
-    public void LocationChanged(ObservableAgent agent) {
+    public void LocationChanged(ObservableAgent agent) throws Exception {
 
-        ReduceEnergyLevel(agent);
+
     }
 
     @Override

@@ -7,9 +7,11 @@ import java.util.LinkedList;
  */
 public class Grid{
 
+
     private LinkedList<Agent>[][] _grid;
     private int _lenght;
     private int _breath;
+
 
     protected Grid(int x, int y)
     {
@@ -23,6 +25,7 @@ public class Grid{
     {
         //<capture<?extends Agent>>
     }
+
 
     public void Add(Agent agent )
     {
@@ -50,9 +53,6 @@ try {
     }
 
 
-
-
-
     public void RemoveAgentInSquare(Agent agent, ILocation location) {
         LinkedList<Agent> agentsInSquare = _grid[location.GetX()][location.GetY()];
 
@@ -60,6 +60,7 @@ try {
             agentsInSquare.remove(agent);
         }
     }
+
 
     public int GetLenght()
     {

@@ -17,12 +17,16 @@ public class Grass extends Agent  {
         super(configuration);
     }
 
+
     @Override
     public void ExecuteSteps() {
 
-
+        IncreaseEnergyLevel();
+        Move();
+        Reproduce();
 
     }
+
 
     @Override
     public boolean CanReproduce()
@@ -54,4 +58,12 @@ public class Grass extends Agent  {
             Grid.Add(new Grass(configuration));
         }
     }
+
+
+    @Override
+    public void Move()
+    {
+        AgentMovement.Spread(this);
+    }
+
 }

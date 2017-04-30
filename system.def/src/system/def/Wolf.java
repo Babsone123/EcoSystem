@@ -3,8 +3,7 @@ package system.def;
 import java.util.LinkedList;
 
 
-
-public class Wolf extends Agent   {
+public class Wolf extends Agent implements MobileAgent, IPredator   {
 
     private IDefaultConfiguration configuration = new WolfConfiguration();
 
@@ -22,8 +21,11 @@ public class Wolf extends Agent   {
 
         Move();
         Eat();
-
+        Reproduce();
+        DecreaseEnergyLevel();
     }
+
+
 
 
     public void Eat() {
@@ -55,7 +57,7 @@ public class Wolf extends Agent   {
     }
 
     @Override
-    protected boolean IsEatable(Agent prey) {
+    public boolean IsEatable(Agent prey) {
         boolean eatable = false;
 
         if (this.Level.NumericValue() > prey.Level.NumericValue() & prey.GetType() != TypeOfOrganism.Plant) {
@@ -64,12 +66,6 @@ public class Wolf extends Agent   {
         }
 
         return eatable;
-
-    }
-
-
-    public void Move() {
-        AgentMovement.RandomSingleStep(this);
 
     }
 

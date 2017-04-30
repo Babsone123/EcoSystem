@@ -9,9 +9,7 @@ import java.util.List;
 public class program {
     public static void main(String[] args) {
 
-
         //Grid g = new Grid(10, 10);
-
         Wolf w = new Wolf(new WolfConfiguration());
         Grass g = new Grass(new GrassConfiguration());
         Deer d = new Deer(new DeerConfiguration());
