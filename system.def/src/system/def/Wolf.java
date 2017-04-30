@@ -1,17 +1,15 @@
 package system.def;
 
-import java.util.List;
+import java.util.LinkedList;
 
-/**
- * Created by anthonylawal on 21/04/2017.
- */
 
-public class Wolf extends Agent implements IMobileAgent  {
+
+public class Wolf extends Agent   {
 
     private IDefaultConfiguration configuration = new WolfConfiguration();
 
-    protected Wolf( TrophicLevel level, String name, int energyLevel, TypeOfOrganism type, ILocation location, int IncreaseEnergyValue, int DescreaseEnergyValue) {
-        super(level, name, energyLevel, type, location, IncreaseEnergyValue, DescreaseEnergyValue);
+    protected Wolf( TrophicLevel level, String name, int energyLevel, TypeOfOrganism type, ILocation location, int IncreaseEnergyValue, int DescreaseEnergyValue, double probability) {
+        super(level, name, energyLevel, type, location, IncreaseEnergyValue, DescreaseEnergyValue, probability);
     }
 
     protected Wolf(IDefaultConfiguration configuration) {
@@ -23,14 +21,63 @@ public class Wolf extends Agent implements IMobileAgent  {
     public void ExecuteSteps() {
 
         Move();
-
+        Eat();
 
     }
 
 
+    public void Eat() {
+
+        LinkedList<Agent> agentsInCurrentSquare = GetAgentsInSameSquare();
+
+        for(int i = 0; i < agentsInCurrentSquare.size(); i++)
+        {
+            Agent currentAgent = agentsInCurrentSquare.get(i);
+
+            if(IsEatable(currentAgent))
+            {
+                agentsInCurrentSquare.get(i).Die();
+                IncreaseEnergyLevel();
+                break;
+            }
+
+        }
+
+    }
+
     @Override
+    public void Reproduce() {
+
+        if (CanReproduce())
+        {
+            Grid.Add(new Wolf(configuration));
+        }
+    }
+
+    @Override
+    protected boolean IsEatable(Agent prey) {
+        boolean eatable = false;
+
+        if (this.Level.NumericValue() > prey.Level.NumericValue() & prey.GetType() != TypeOfOrganism.Plant) {
+
+            eatable = true;
+        }
+
+        return eatable;
+
+    }
+
+
     public void Move() {
         AgentMovement.RandomSingleStep(this);
-        DecreaseEnergyLevel();
+
+    }
+
+
+//Delete
+    public void Move(ILocation square) {
+        this.Grid.RemoveAgentInSquare(this, this.CurrentLocation());
+        this.SetLocation(square);
+
     }
 }

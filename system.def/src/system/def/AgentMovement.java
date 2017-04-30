@@ -14,10 +14,10 @@ public class AgentMovement {
     private static Agent agent;
     private static ILocation nextLocation;
 
-    public static void RandomSingleStep(IMobileAgent mobileAgent)
+    public static void RandomSingleStep(Agent agent)
     {
 
-        agent = (Agent) mobileAgent;
+        agent = agent;
         grid = agent.Grid;
 
 

@@ -7,6 +7,7 @@ import java.util.Random;
 /**
  * Created by anthonylawal on 19/04/2017.
  */
+/*
 public class Predator extends Agent {
 
 
@@ -40,3 +41,4 @@ public class Predator extends Agent {
         }
     }
 }
+*/

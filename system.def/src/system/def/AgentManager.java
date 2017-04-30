@@ -17,7 +17,6 @@ public class AgentManager implements IAgentObserver{
     public void updateStatus(ObservableAgent agent, Status status) {
 
         Agent castAgent = (Agent)agent;
-
         if (status == Status.Dead) {
             _grid.RemoveAgentInSquare(castAgent, agent.GetLocation());
         }

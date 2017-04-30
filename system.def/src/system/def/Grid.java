@@ -44,14 +44,17 @@ try {
     }
 
 
-    public LinkedList<? extends Agent> GetAgentsInSquare(ILocation location)
+    public LinkedList<Agent> GetAgentsInSquare(ILocation location)
     {
         return _grid[location.GetX()][location.GetY()];
     }
 
 
+
+
+
     public void RemoveAgentInSquare(Agent agent, ILocation location) {
-        LinkedList<? extends Agent> agentsInSquare = _grid[location.GetX()][location.GetY()];
+        LinkedList<Agent> agentsInSquare = _grid[location.GetX()][location.GetY()];
 
         if (agentsInSquare.contains(agent)) {
             agentsInSquare.remove(agent);

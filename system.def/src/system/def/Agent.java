@@ -1,5 +1,6 @@
 package system.def;
 
+import java.util.LinkedList;
 import java.util.Random;
 
 /**
@@ -70,7 +71,13 @@ public abstract class Agent extends ObservableAgent {
 
     public void DecreaseEnergyLevel()
     {
+
         EnergyLevel -= _decreaseEnergyValue;
+
+        if (EnergyLevel < 0)
+        {
+            Die();
+        }
     }
 
     @Override
@@ -83,8 +90,12 @@ public abstract class Agent extends ObservableAgent {
         notifyStatusChange(status);
     }
 
-    //To allow implementation in concrete classes.
-    public abstract void ExecuteSteps();
+    public LinkedList<Agent> GetAgentsInSameSquare()
+    {
+        ILocation square = this.CurrentLocation();
+        LinkedList<Agent> AgentsInCurrentGrid = this.Grid.GetAgentsInSquare(square);
+        return AgentsInCurrentGrid;
+    }
 
 
 
@@ -96,17 +107,11 @@ public abstract class Agent extends ObservableAgent {
     }
 
 
-    public void Reproduce()
-    {
-
-    }
-
-
-    private Double CalculateProbability()
+    protected boolean CanReproduce()
     {
         Random randomNumber = new Random(1);
         Double randomProbability = randomNumber.nextDouble();
-        return randomProbability;
+        return randomProbability >= R_Probability ;
     }
 
 
@@ -125,4 +130,12 @@ public abstract class Agent extends ObservableAgent {
              this.Die();
 
     }
+
+    //To allow implementation in concrete classes.
+    public abstract void ExecuteSteps();
+
+    public abstract void Reproduce();
+
+    protected abstract boolean IsEatable(Agent prey);
+
 }

@@ -49,6 +49,6 @@ public class GrassConfiguration implements IDefaultConfiguration {
 
     @Override
     public Double R_Probability() {
-        return 0.4;
+        return 0.0;
     }
 }
