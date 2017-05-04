@@ -1,70 +1,67 @@
 package system.def;
 
-import java.util.ArrayList;
-import java.util.List;
-
-/**
- * Created by anthonylawal on 27/04/2017.
- */
-
-public class AgentMovement {
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.Collections;
 
 
-    private static Grid grid;
-    private static Agent agent;
+
+public  class AgentMovement {
+
+
     private static ILocation nextLocation;
 
-    public static void RandomSingleStep(Agent agent)
+    public static void RandomSingleStep(Agent agent, IGrid grid)
     {
-        agent = agent;
-        grid = agent.Grid;
-
-        agent.Grid.RemoveAgentInSquare(agent, agent.CurrentLocation());
-        GetRandomAvailableSquare();
+        grid.RemoveAgentInSquare(agent, agent.CurrentLocation());
+        GetRandomAvailableSquare(agent, grid);
         agent.SetLocation(nextLocation);
-        NotifyObserver();
+        grid.Add(agent);
+
     }
 
 
-    public static void Spread(Agent agent)
+    public static void Spread(Agent agent, IGrid grid)
     {
         agent = agent;
         grid = agent.Grid;
 
-        GetRandomAvailableSquare();
+        GetRandomAvailableSquare(agent, grid);
         agent.SetLocation(nextLocation);
 
     }
 
 
-    private static void NotifyObserver()
+    /*private static void NotifyObserver(Agent agent)
     {
         agent.setChanged();
         agent.notifyLocationChange();
     }
 
-
-    private static void GetRandomAvailableSquare()
+*/
+    private static void GetRandomAvailableSquare(Agent agent, IGrid grid)
     {
 
         Direction[] directions = new Direction[]
                 {
-                Direction.North,
-                Direction.South,
-                Direction.East,
-                Direction.West
+                        Direction.North,
+                        Direction.South,
+                        Direction.East,
+                        Direction.West
                 };
 
+        Collections.shuffle(Arrays.asList(directions));
 
         for (Direction direction : directions) {
-            if (IsSpaceAvailableInDirection(direction)) {
-                nextLocation = GetSquare(direction);
+            if (IsSpaceAvailableInDirection(direction, agent, grid)) {
+                nextLocation = GetSquare(direction, agent);
                 break;
             }
+
         }
     }
 
-    private static Square GetSquare(Direction direction)
+    private static Square GetSquare(Direction direction, Agent agent)
     {
 
         Square nextSquare = null;
@@ -99,11 +96,11 @@ public class AgentMovement {
     }
 
 
-    private static boolean IsSpaceAvailableInDirection(Direction Direction)
+    private static boolean IsSpaceAvailableInDirection(Direction Direction, Agent agent, IGrid grid)
     {
 
         boolean isSpaceAvailable = false;
-        int gridBreath = grid.GetBreath();
+        int gridWidth = grid.GetWidth();
         int gridLenght = grid.GetLenght();
         ILocation currentLocation = agent.GetLocation();
 
@@ -111,11 +108,11 @@ public class AgentMovement {
         switch (Direction) {
 
             case North:
-                isSpaceAvailable = (gridBreath - currentLocation.GetY()) > 0;
+                isSpaceAvailable = (gridWidth - currentLocation.GetY()) > 0;
                 break;
 
             case South:
-                isSpaceAvailable = (gridBreath - currentLocation.GetY()) < currentLocation.GetY();
+                isSpaceAvailable = (gridWidth - currentLocation.GetY()) < currentLocation.GetY();
                 break;
 
             case East:

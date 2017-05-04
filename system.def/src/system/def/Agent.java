@@ -1,16 +1,17 @@
 package system.def;
 
+
+
 import java.util.LinkedList;
 import java.util.Random;
 
-/**
- * Created by anthonylawal on 18/04/2017.
- */
+
+
 public abstract class Agent extends ObservableAgent {
 
 
     public String Name;
-    public Grid Grid;
+    public IGrid Grid;
     public int EnergyLevel;
     private TypeOfOrganism _type;
     protected ILocation Location;
@@ -18,35 +19,28 @@ public abstract class Agent extends ObservableAgent {
     protected int _decreaseEnergyValue;
     private Status _status;
     protected TrophicLevel Level;
-    private Double R_Probability;
+    private Double REPRODUCE_PROBABILITY;
+    private AgentConfiguration _configuration;
+    private IAgentObserver _observer;
 
 
-    protected Agent(TrophicLevel level, String name, int energyLevel, TypeOfOrganism type,
-                    ILocation location, int IncreaseEnergyValue, int DescreaseEnergyValue,
-                    double r_Probability) {
 
-        EnergyLevel = energyLevel;
-        _type = type;
-        SetLocation(location);
-        _increaseEnergyValue = IncreaseEnergyValue;
-        _decreaseEnergyValue = DescreaseEnergyValue;
-        _status = system.def.Status.Active;
-        Level = level;
-        Name = name;
-        R_Probability = r_Probability;
-    }
+    protected Agent(AgentConfiguration configuration, IAgentObserver observer) {
 
-
-    protected Agent(IDefaultConfiguration configuration) {
-
-        EnergyLevel = configuration.SetInitialEnergyLevel();
         _type = configuration.SetType();
-        SetLocation(configuration.SetLocation());
+        _configuration = configuration;
         _increaseEnergyValue = configuration.SetIncreaseEnergyValue();
         _decreaseEnergyValue = configuration.SetDecreaseEnergyValue();
         _status = system.def.Status.Active;
+        _observer = observer;
+
+        EnergyLevel = configuration.SetInitialEnergyLevel();
+        Grid = configuration.GetGrid();
+        SetLocation(configuration.GetLocation());
         Level = configuration.Setlevel();
-        R_Probability = configuration.R_Probability();
+        REPRODUCE_PROBABILITY = configuration.R_Probability();
+        addObserver(observer);
+
     }
 
 
@@ -101,21 +95,30 @@ public abstract class Agent extends ObservableAgent {
     }
 
 
-
     public void Die()
     {
         Status status = Status.Dead;
-        EnergyLevel = -1;
         SetStatus(status);
     }
 
 
     protected boolean CanReproduce()
     {
-        Random randomNumber = new Random(1);
-        Double randomProbability = randomNumber.nextDouble();
-        return randomProbability >= R_Probability ;
+        try {
+            Random randomNumber = new Random(1);
+            Double randomProbability = randomNumber.nextDouble() * 2 - 1;
+            return randomProbability >= REPRODUCE_PROBABILITY ;
+        }
+        catch (Exception e)
+        {
+            e.fillInStackTrace();
+
+        }
+
+        return false;
     }
+
+
 
 
     @Override
@@ -126,22 +129,21 @@ public abstract class Agent extends ObservableAgent {
 
     public void SetLocation(ILocation location) {
          Location = location;
-         if (Grid != null)
-         Grid.Add(this);
 
     }
 
     public void Move()
     {
-        AgentMovement.RandomSingleStep(this);
+        AgentMovement.RandomSingleStep(this, Grid);
     }
 
     //To allow implementation in concrete classes.
     //Was going to implement a template pattern.
     public abstract void ExecuteSteps();
 
+
     public abstract void Reproduce();
 
-    //protected abstract boolean IsEatable(Agent prey);
+
 
 }

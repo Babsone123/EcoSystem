@@ -5,66 +5,74 @@ import java.util.Random;
 /**
  * Created by anthonylawal on 21/04/2017.
  */
-public class DeerConfiguration extends AgentConfiguration {
+public class AgentConfiguration {
 
 
     private  final int INITIALENERGYLEVEL = 40;
-    private  final TypeOfOrganism TYPE = TypeOfOrganism.Herbivore;
+    private  final TypeOfOrganism TYPE = TypeOfOrganism.Plant;
+    protected  ILocation LOCATION;
     private  int INCREASEENERGYVALUE = 10;
     private  int DECREASEENERGYVALUE = 20;
+    protected IGrid _grid;
 
-    public DeerConfiguration(IGrid grid)
+
+    public AgentConfiguration(IGrid grid)
     {
-        super(grid);
+        int maxLenght = grid.GetLenght();
+        int maxWidth = grid.GetWidth();
+        _grid = grid;
+
+        Random random = new Random();
+        int x = random.nextInt(maxLenght);
+        int y = random.nextInt(maxWidth);
+        LOCATION  = new Square(x, y);
     }
 
 
-    @Override
     public int SetInitialEnergyLevel() {
         return INITIALENERGYLEVEL;
     }
 
 
-    @Override
     public TrophicLevel Setlevel() {
         return TrophicLevel.HERBIVOUR;
     }
 
 
-    @Override
     public TypeOfOrganism SetType() {
         return TYPE;
     }
 
 
-    @Override
     public ILocation GetLocation() {
         return LOCATION;
     }
 
 
-    @Override
     public void SetLocation(ILocation location) {
 
         LOCATION  = location;
     }
 
 
-    @Override
+    public IGrid GetGrid()
+    {
+        return _grid;
+    }
+
+
     public int SetIncreaseEnergyValue() {
         return INCREASEENERGYVALUE;
     }
 
 
-    @Override
     public int SetDecreaseEnergyValue() {
         return DECREASEENERGYVALUE;
     }
 
 
-    @Override
     public Double R_Probability() {
-        return 0.3;
+        return 0.5;
     }
 
 

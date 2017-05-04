@@ -1,16 +1,25 @@
 package system.def;
 
+import java.util.Random;
+
 /**
  * Created by anthonylawal on 21/04/2017.
  */
-public class GrassConfiguration implements IDefaultConfiguration {
+public class GrassConfiguration extends AgentConfiguration {
 
 
     private static final int INITIALENERGYLEVEL = 40;
     private static final TypeOfOrganism TYPE = TypeOfOrganism.Plant;
-    private static ILocation LOCATION = new Square(2, 4);
     private static int INCREASEENERGYVALUE = 10;
     private static int DECREASEENERGYVALUE = 20;
+
+
+    public GrassConfiguration(IGrid grid)
+    {
+        super(grid);
+
+    }
+
 
 
     @Override
@@ -31,8 +40,14 @@ public class GrassConfiguration implements IDefaultConfiguration {
 
 
     @Override
-    public ILocation SetLocation() {
+    public ILocation GetLocation() {
         return LOCATION;
+    }
+
+    @Override
+    public void SetLocation(ILocation location) {
+
+        LOCATION  = location;
     }
 
 

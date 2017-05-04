@@ -1,14 +1,17 @@
-package system.def;
+package system.def.AgentHelperClass;
+
+import system.def.*;
 
 /**
  * Created by anthonylawal on 24/04/2017.
  */
-public class AgentManager implements IAgentObserver{
+/*
+public class AgentManager implements IAgentObserver {
 
 
-    private Grid _grid;
+    private IGrid _grid;
 
-    public AgentManager(Grid grid) {
+    public AgentManager(IGrid grid) {
         _grid = grid;
     }
 
@@ -35,3 +38,4 @@ public class AgentManager implements IAgentObserver{
     }
 
 }
+*/

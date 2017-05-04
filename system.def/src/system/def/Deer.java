@@ -2,31 +2,23 @@ package system.def;
 
 import java.util.LinkedList;
 
-/**
- * Created by anthonylawal on 21/04/2017.
- */
+
 
 public class Deer extends Agent implements MobileAgent,  IPredator {
 
-    private IDefaultConfiguration configuration = new WolfConfiguration();
+    private AgentConfiguration _configuration;
+    private IAgentObserver _observer;
 
-    protected Deer(TrophicLevel level,
-                   String name,
-                   int energyLevel,
-                   TypeOfOrganism type,
-                   ILocation location,
-                   int IncreaseEnergyValue,
-                   int DescreaseEnergyValue, double reproProbability) {
-        super(level, name, energyLevel, type, location, IncreaseEnergyValue, DescreaseEnergyValue, reproProbability);
-    }
+    public Deer(AgentConfiguration configuration, IAgentObserver observer) {
 
-    protected Deer(IDefaultConfiguration configuration) {
-        super(configuration);
+        super(configuration, observer);
+        _configuration = configuration;
+        _observer = observer;
     }
 
 
 @Override
-public void ExecuteSteps() {
+    public void ExecuteSteps() {
 
         Move();
         Eat();
@@ -36,13 +28,14 @@ public void ExecuteSteps() {
 }
 
 
-@Override
-public void Reproduce() {
+    public void Reproduce() {
 
         if (CanReproduce())
         {
-            Grid.Add(new Deer(configuration));
+            _configuration.SetLocation(CurrentLocation());
+            Grid.Add(new Deer(_configuration, _observer));
         }
+
     }
 
 
@@ -64,16 +57,18 @@ public void Reproduce() {
 
         LinkedList<Agent> agentsInCurrentSquare = GetAgentsInSameSquare();
 
-        for(int i = 0; i < agentsInCurrentSquare.size(); i++)
-        {
-            Agent currentAgent = agentsInCurrentSquare.get(i);
+        if (agentsInCurrentSquare != null) {
 
-            if(IsEatable(currentAgent))
-            {
-                agentsInCurrentSquare.get(i).DecreaseEnergyLevel();
-                IncreaseEnergyLevel();
-                break;
+            for (int i = 0; i < agentsInCurrentSquare.size(); i++) {
+                Agent currentAgent = agentsInCurrentSquare.get(i);
+
+                if (IsEatable(currentAgent)) {
+                    agentsInCurrentSquare.get(i).DecreaseEnergyLevel();
+                    IncreaseEnergyLevel();
+                    break;
+                }
             }
         }
     }
+
 }

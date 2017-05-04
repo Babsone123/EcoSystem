@@ -8,6 +8,7 @@ import java.util.Observable;
  */
 public interface IAgentObserver {
     void updateStatus(ObservableAgent agent, Status status);
-    void LocationChanged(ObservableAgent agent) throws Exception;
-    void ReduceEnergyLevel(ObservableAgent agent);
+    void NotifyAboutNewAgent(ObservableAgent agent);
+
+    void updateLocation(ObservableAgent agent, ILocation iLocation);
 }

@@ -1,31 +1,29 @@
 package system.def;
 
+import system.def.AgentHelperClass.AgentFactory;
+//import system.def.AgentHelperClass.AgentManager;
+
 import java.util.*;
 
-/**
- * Created by anthonylawal on 19/04/2017.
- */
 
-public class EcoController   {
+
+public class EcoController {
 
     private List<Agent> _agentsInEcoSystem;
-    private Grid _grid;
+    private IGrid _grid;
     private IScheduler _scheduler;
-    private AgentManager _agentManager;
 
-    public EcoController(List<Agent> setOfAgents, int lenght, int breath)
+
+    public EcoController(IGrid grid, IScheduler scheduler, List<Agent> agents)
     {
-        _agentsInEcoSystem = setOfAgents;
-        _grid = new Grid(lenght, breath);
-        _scheduler = new ProbabilisticScheduler(_agentsInEcoSystem);
-        _agentManager = new AgentManager(_grid);
+        _agentsInEcoSystem = agents;
+        _grid = grid;
+        _scheduler = scheduler;
         ObserveAgents();
         SetAgentsOnGrid();
-
     }
 
-    private void SetAgentsOnGrid()
-    {
+    private void SetAgentsOnGrid() {
         for (Agent agent : _agentsInEcoSystem) {
             _grid.Add(agent);
         }
@@ -33,21 +31,36 @@ public class EcoController   {
 
     private void ObserveAgents() {
         for (Agent agent : _agentsInEcoSystem) {
-            agent.addObserver(_agentManager);
+            agent.addObserver(_scheduler);
 
         }
     }
 
-    public void Start()
+    public void InitiateSession() {
+
+        Agent activeAgent;
+
+        while (Continue())
+        {
+            try {
+                activeAgent = _scheduler.PickAgent();
+                activeAgent.ExecuteSteps();
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+    private boolean Continue()
     {
-        Agent agent  = _scheduler.PickAgent();
-        Agent agent1 = _scheduler.PickAgent();
-
+        return _agentsInEcoSystem.size() > 0;
     }
 
 
-
-    }
+}
 
 
 

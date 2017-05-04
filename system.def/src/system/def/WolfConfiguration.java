@@ -1,54 +1,61 @@
 package system.def;
 
-/**
- * Created by anthonylawal on 21/04/2017.
- */
-public class WolfConfiguration implements IDefaultConfiguration {
+import java.util.Random;
+
+
+public class WolfConfiguration extends AgentConfiguration  {
 
 
     private static final int INITIALENERGYLEVEL = 40;
     private static final TypeOfOrganism TYPE = TypeOfOrganism.Carnivore;
-    private static ILocation LOCATION = new Square(0, 6);
     private static int INCREASEENERGYVALUE = 10;
     private static int DECREASEENERGYVALUE = 20;
 
 
-    @Override
+    public WolfConfiguration(IGrid grid)
+    {
+        super(grid);
+    }
+
+
     public int SetInitialEnergyLevel() {
         return INITIALENERGYLEVEL;
     }
 
 
-    @Override
     public TrophicLevel Setlevel() {
         return TrophicLevel.CARNIVORE;
     }
 
-    @Override
+
     public TypeOfOrganism SetType() {
         return TYPE;
     }
 
 
-    @Override
-    public ILocation SetLocation() {
+    public ILocation GetLocation() {
         return LOCATION;
     }
 
 
     @Override
+    public void SetLocation(ILocation location) {
+
+        LOCATION  = location;
+    }
+
+
     public int SetIncreaseEnergyValue() {
         return INCREASEENERGYVALUE;
     }
 
 
-    @Override
     public int SetDecreaseEnergyValue() {
         return DECREASEENERGYVALUE;
     }
 
-    @Override
+
     public Double R_Probability() {
-        return null;
+        return 5.0;
     }
 }

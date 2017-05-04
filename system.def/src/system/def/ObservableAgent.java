@@ -1,6 +1,6 @@
 package system.def;
 
-//Used java observer object.
+//Modified and implemented Java observer object.
 
 import java.util.Vector;
 
@@ -13,15 +13,21 @@ public abstract class ObservableAgent {
 
     public abstract void IncreaseEnergyLevel();
 
+
     public abstract void DecreaseEnergyLevel();
+
 
     public abstract ILocation GetLocation();
 
+
     public abstract Status GetStatus();
+
 
     public abstract int GetEnergyLevel();
 
+
     public abstract void SetStatus(Status status);
+
 
     public ObservableAgent() {
         observers = new Vector<>();
@@ -42,6 +48,21 @@ public abstract class ObservableAgent {
     }
 
 
+    public void notifyObserverAboutNewAgent()
+    {
+        Vector<IAgentObserver> arrLocal;
+
+        synchronized (this) {
+
+            if (!changed)
+                return;
+            arrLocal = observers;
+            clearChanged();
+        }
+
+        for (int i = arrLocal.size()-1; i >= 0; i--)
+            arrLocal.get(i).NotifyAboutNewAgent(this);
+    }
 
     public void notifyStatusChange(ObservableAgent agent, Status status) {
 
@@ -67,7 +88,7 @@ public abstract class ObservableAgent {
     }
 
 
-    public void notifyLocationChange() {
+    /*public void notifyLocationChange() {
 
         Vector<IAgentObserver> arrLocal;
 
@@ -87,24 +108,7 @@ public abstract class ObservableAgent {
             }
     }
 
-
-    public void notifyObserverToReduceEnergyLevel() {
-
-        Vector<IAgentObserver> arrLocal;
-
-        synchronized (this) {
-
-            if (!changed)
-                return;
-            arrLocal = observers;
-            clearChanged();
-        }
-
-        for (int i = arrLocal.size()-1; i>=0; i--)
-            arrLocal.get(i).ReduceEnergyLevel(this);
-    }
-
-
+*/
     public synchronized void deleteObservers() {
         observers.removeAllElements();
     }
@@ -129,4 +133,21 @@ public abstract class ObservableAgent {
         return observers.size();
     }
 
-}
+
+    public void notifyLocationChange() {
+
+        Vector<IAgentObserver> arrLocal;
+
+        synchronized (this) {
+
+            if (!changed)
+                return;
+            arrLocal = observers;
+            clearChanged();
+        }
+
+        for (int i = arrLocal.size()-1; i >= 0; i--)
+            arrLocal.get(i).updateLocation(this, this.GetLocation());
+    }
+    }
+

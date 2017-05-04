@@ -1,5 +1,6 @@
 package system.def;
 
+import system.def.AgentHelperClass.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,19 +10,14 @@ import java.util.List;
 public class program {
     public static void main(String[] args) {
 
-        //Grid g = new Grid(10, 10);
-        Wolf w = new Wolf(new WolfConfiguration());
-        Grass g = new Grass(new GrassConfiguration());
-        Deer d = new Deer(new DeerConfiguration());
+        IGrid grid  = new Grid(10, 10);
+        IScheduler scheduler = new ProbabilisticScheduler();
+        AgentFactory agentFactory = new AgentFactory(grid, scheduler);
+        agentFactory.AddNewDearToList(1);
+       /* agentFactory.AddNewGrassToList(20);
+        agentFactory.AddNewWolfToList(20);*/
 
-
-        List<Agent> agents = new ArrayList<>();
-        agents.add(w);
-        agents.add(g);
-        agents.add(d);
-
-
-        EcoController c = new EcoController(agents, 10, 10);
-        c.Start();
+        EcoController controller = new EcoController(grid, scheduler, agentFactory.GetAgents());
+        controller.InitiateSession();
     }
 }

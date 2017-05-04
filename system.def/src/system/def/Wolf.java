@@ -5,14 +5,15 @@ import java.util.LinkedList;
 
 public class Wolf extends Agent implements MobileAgent, IPredator   {
 
-    private IDefaultConfiguration configuration = new WolfConfiguration();
+    private AgentConfiguration _configuration;
+    private IAgentObserver _observer;
 
-    protected Wolf( TrophicLevel level, String name, int energyLevel, TypeOfOrganism type, ILocation location, int IncreaseEnergyValue, int DescreaseEnergyValue, double probability) {
-        super(level, name, energyLevel, type, location, IncreaseEnergyValue, DescreaseEnergyValue, probability);
-    }
 
-    protected Wolf(IDefaultConfiguration configuration) {
-        super(configuration);
+    public Wolf(AgentConfiguration configuration, IAgentObserver observer) {
+
+        super(configuration, observer);
+        _configuration = configuration;
+        _observer = observer;
     }
 
 
@@ -23,8 +24,8 @@ public class Wolf extends Agent implements MobileAgent, IPredator   {
         Eat();
         Reproduce();
         DecreaseEnergyLevel();
-    }
 
+    }
 
 
 
@@ -32,32 +33,37 @@ public class Wolf extends Agent implements MobileAgent, IPredator   {
 
         LinkedList<Agent> agentsInCurrentSquare = GetAgentsInSameSquare();
 
-        for(int i = 0; i < agentsInCurrentSquare.size(); i++)
+        if (agentsInCurrentSquare != null)
         {
-            Agent currentAgent = agentsInCurrentSquare.get(i);
-
-            if(IsEatable(currentAgent))
+            for(int i = 0; i < agentsInCurrentSquare.size(); i++)
             {
-                agentsInCurrentSquare.get(i).Die();
-                IncreaseEnergyLevel();
-                break;
+                Agent currentAgent = agentsInCurrentSquare.get(i);
+
+                if(IsEatable(currentAgent))
+                {
+                    agentsInCurrentSquare.get(i).Die();
+                    IncreaseEnergyLevel();
+                    break;
+                }
+
             }
-
         }
-
     }
 
-    @Override
     public void Reproduce() {
 
         if (CanReproduce())
         {
-            Grid.Add(new Wolf(configuration));
+            _configuration.SetLocation(CurrentLocation());
+            Grid.Add(new Wolf(_configuration, _observer));
         }
     }
 
+
+
     @Override
     public boolean IsEatable(Agent prey) {
+
         boolean eatable = false;
 
         if (this.Level.NumericValue() > prey.Level.NumericValue() & prey.GetType() != TypeOfOrganism.Plant) {
@@ -70,10 +76,4 @@ public class Wolf extends Agent implements MobileAgent, IPredator   {
     }
 
 
-//Delete
-    public void Move(ILocation square) {
-        this.Grid.RemoveAgentInSquare(this, this.CurrentLocation());
-        this.SetLocation(square);
-
-    }
 }

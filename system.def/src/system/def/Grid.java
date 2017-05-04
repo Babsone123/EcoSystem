@@ -5,72 +5,78 @@ import java.util.LinkedList;
 /**
  * Created by anthonylawal on 18/04/2017.
  */
-public class Grid{
+public class Grid implements IGrid{
 
 
     private LinkedList<Agent>[][] _grid;
     private int _lenght;
-    private int _breath;
+    private int _width;
 
 
     protected Grid(int x, int y)
     {
         _lenght = x;
-        _breath = y;
-        _grid = new LinkedList[_lenght][_breath];
+        _width = y;
+        _grid = new LinkedList[_lenght][_width];
     }
 
 
     public void Update()
     {
-        //<capture<?extends Agent>>
+
+    }
+
+
+    public void Add(Agent agent ) {
+        try {
+            int y = agent.CurrentLocation().GetY();
+            int x = agent.CurrentLocation().GetX();
+            agent.Grid = this;
+
+            if (_grid[x][y] == null) {
+                _grid[x][y] = new LinkedList<Agent>();
+
+            }
+
+            if (!_grid[x][y].contains(agent))
+                _grid[x][y].add(agent);
+            agent.setChanged();
+            agent.notifyObserverAboutNewAgent();
+        }
+        catch (Exception e) {
+
+        }
     }
 
 
-    public void Add(Agent agent )
-    {
-try {
-    int y = agent.CurrentLocation().GetY();
-    int x = agent.CurrentLocation().GetX();
-    agent.Grid = this;
-
-    if (_grid[x][y] == null) {
-        _grid[x][y] = new LinkedList<Agent>();
-    }
-
-    _grid[x][y].add(agent);
-}
-         catch(Exception e)
-         {
-
-    }
-    }
-
-
+    @Override
     public LinkedList<Agent> GetAgentsInSquare(ILocation location)
     {
         return _grid[location.GetX()][location.GetY()];
     }
 
 
+    @Override
     public void RemoveAgentInSquare(Agent agent, ILocation location) {
         LinkedList<Agent> agentsInSquare = _grid[location.GetX()][location.GetY()];
 
         if (agentsInSquare.contains(agent)) {
-            agentsInSquare.remove(agent);
+            boolean isRemoved = agentsInSquare.remove(agent);
         }
     }
 
 
+    @Override
     public int GetLenght()
     {
         return _lenght;
     }
 
 
-    public int GetBreath()
+    @Override
+    public int GetWidth()
     {
-        return _breath;
+        return _width;
     }
 
 

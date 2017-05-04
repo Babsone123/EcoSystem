@@ -6,5 +6,6 @@ package system.def;
 public interface IPredator {
 
     public boolean IsEatable(Agent prey);
+    public void Eat();
 
 }

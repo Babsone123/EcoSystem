@@ -1,5 +1,7 @@
 package system.def;
 
+
+import java.awt.image.ImageObserver;
 import java.util.LinkedList;
 
 /**
@@ -7,24 +9,23 @@ import java.util.LinkedList;
  */
 public class Grass extends Agent  {
 
-    private IDefaultConfiguration configuration = new WolfConfiguration();
 
-    protected Grass(TrophicLevel level, String name, int energyLevel, TypeOfOrganism type, ILocation location, int IncreaseEnergyValue, int DescreaseEnergyValue, double probability) {
-        super(level, name, energyLevel, type, location, IncreaseEnergyValue, DescreaseEnergyValue, probability);
-    }
+    private AgentConfiguration _configuration;
+    private IAgentObserver _observer;
 
-    protected Grass(IDefaultConfiguration configuration) {
-        super(configuration);
+    public Grass(AgentConfiguration configuration, IAgentObserver observer) {
+
+        super(configuration, observer);
+        _configuration = configuration;
+        _observer = observer;
     }
 
 
     @Override
     public void ExecuteSteps() {
-
         IncreaseEnergyLevel();
         Move();
         Reproduce();
-
     }
 
 
@@ -36,14 +37,14 @@ public class Grass extends Agent  {
         boolean isGrassInCurrentSquare = true;
 
 
-        for(int i = 0; i < agentsInCurrentSquare.size(); i++)
-        {
-            if(agentsInCurrentSquare.get(i).GetType() == TypeOfOrganism.Plant)
-            {
-                isGrassInCurrentSquare = false;
-                break;
-            }
+        if (agentsInCurrentSquare != null) {
+            for (int i = 0; i < agentsInCurrentSquare.size(); i++) {
+                if (agentsInCurrentSquare.get(i).GetType() == TypeOfOrganism.Plant) {
+                    isGrassInCurrentSquare = false;
+                    break;
+                }
 
+            }
         }
 
         return isGrassInCurrentSquare;
@@ -55,7 +56,7 @@ public class Grass extends Agent  {
 
         if (CanReproduce())
         {
-            Grid.Add(new Grass(configuration));
+            Grid.Add(new Grass(_configuration, _observer));
         }
     }
 
@@ -63,7 +64,7 @@ public class Grass extends Agent  {
     @Override
     public void Move()
     {
-        AgentMovement.Spread(this);
+        AgentMovement.Spread(this, Grid);
     }
 
 }
