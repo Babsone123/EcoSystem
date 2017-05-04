@@ -36,7 +36,6 @@ public class Grass extends Agent  {
         LinkedList<Agent> agentsInCurrentSquare = GetAgentsInSameSquare();
         boolean isGrassInCurrentSquare = true;
 
-
         if (agentsInCurrentSquare != null) {
             for (int i = 0; i < agentsInCurrentSquare.size(); i++) {
                 if (agentsInCurrentSquare.get(i).GetType() == TypeOfOrganism.Plant) {

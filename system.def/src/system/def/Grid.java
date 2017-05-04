@@ -52,7 +52,14 @@ public class Grid implements IGrid{
     @Override
     public LinkedList<Agent> GetAgentsInSquare(ILocation location)
     {
-        return _grid[location.GetX()][location.GetY()];
+        LinkedList<Agent> agentsInSquare = _grid[location.GetX()][location.GetY()];
+        if (agentsInSquare != null)
+        {
+            return agentsInSquare;
+        }
+        else
+            return null;
+
     }
 
 

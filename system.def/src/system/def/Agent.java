@@ -112,7 +112,6 @@ public abstract class Agent extends ObservableAgent {
         catch (Exception e)
         {
             e.fillInStackTrace();
-
         }
 
         return false;
